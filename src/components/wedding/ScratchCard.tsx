@@ -184,10 +184,10 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
     <div className="glass-card relative aspect-square w-full overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 text-center select-none shadow-[var(--shadow-royal)] bg-black/25">
       {/* Background/Revealed Content */}
       <div className="flex h-full flex-col items-center justify-center">
-        <div className="text-gold-gradient font-display text-lg sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight break-words uppercase">
+        <div className="text-gold-static font-display text-lg sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight break-words uppercase">
           {content}
         </div>
-        <div className="mt-1 sm:mt-4 font-display text-[7px] sm:text-[9px] md:text-[10px] lg:text-xs tracking-[0.25em] text-[oklch(0.88_0.09_86)]">
+        <div className="mt-1 sm:mt-3 font-sans text-[10px] sm:text-xs tracking-[0.2em] text-amber-300 font-bold">
           {label.toUpperCase()}
         </div>
         <div className="pointer-events-none absolute inset-x-3 sm:inset-x-6 bottom-2 sm:bottom-4 h-px bg-gradient-to-r from-transparent via-[oklch(0.78_0.15_82)] to-transparent" />

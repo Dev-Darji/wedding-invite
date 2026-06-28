@@ -139,7 +139,6 @@ export function Events() {
                   <span className={`inline-block px-3 py-1 text-[9px] tracking-[0.2em] font-bold rounded-full border ${e.tagColor}`}>
                     {e.tag}
                   </span>
-                  <div className="text-3xl">{e.icon}</div>
                 </div>
                 
                 <h3 className="mt-4 font-display text-2xl font-bold text-[oklch(0.24_0.13_22)]">{e.ceremonyName}</h3>
@@ -209,7 +208,6 @@ export function Events() {
                   <span className={`inline-block px-3 py-1 text-[9px] tracking-[0.2em] font-bold rounded-full border ${e.tagColor}`}>
                     {e.tag}
                   </span>
-                  <div className="text-4xl">{e.icon}</div>
                 </div>
 
                 <h3 className="mt-5 font-display text-2xl font-bold text-[oklch(0.24_0.13_22)]">{e.ceremonyName}</h3>

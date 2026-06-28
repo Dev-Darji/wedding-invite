@@ -112,6 +112,13 @@
   animation: shimmer 6s linear infinite;
 }
 
+@utility text-gold-static {
+  background: linear-gradient(135deg, #c59f3d 0%, #f4c430 40%, #e5b02a 70%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 @utility bg-royal {
   background:
     radial-gradient(circle at 20% 10%, oklch(0.45 0.18 25 / 0.55), transparent 50%),

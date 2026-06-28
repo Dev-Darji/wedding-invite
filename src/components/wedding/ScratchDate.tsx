@@ -53,7 +53,7 @@ export function ScratchDate() {
 
       <SectionTitle eyebrow="Save the Date" title="Scratch to Reveal" />
 
-      <p className="mx-auto mt-4 max-w-md px-6 text-center text-sm tracking-wide text-[oklch(0.88_0.09_86)]/80 sm:text-base font-display">
+      <p className="mx-auto mt-4 max-w-md px-6 text-center text-sm tracking-wide text-[#5c1c28] font-medium sm:text-base">
         Scratch the golden foil on each card to reveal the sacred date of our union.
       </p>
 

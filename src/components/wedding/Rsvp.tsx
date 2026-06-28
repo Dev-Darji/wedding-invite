@@ -73,7 +73,7 @@ export function Rsvp() {
                 key={v}
                 type="button"
                 onClick={() => setAttending(v)}
-                className={`rounded-xl border py-3 font-display text-xs tracking-widest transition-all cursor-pointer font-bold ${
+                className={`rounded-xl border py-3 font-display text-[10px] sm:text-xs tracking-wider transition-all cursor-pointer font-bold ${
                   attending === v
                     ? "border-[#7e1e2d] bg-[#7e1e2d] text-white shadow-md"
                     : "border-[#7e1e2d]/30 bg-transparent text-[#7e1e2d] hover:bg-[#7e1e2d]/5"

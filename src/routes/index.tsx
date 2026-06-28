@@ -11,7 +11,6 @@ const PetalsBackground = lazy(() =>
 );
 const Story = lazy(() => import("@/components/wedding/Story").then((m) => ({ default: m.Story })));
 const Events = lazy(() => import("@/components/wedding/Events").then((m) => ({ default: m.Events })));
-const Gallery = lazy(() => import("@/components/wedding/Gallery").then((m) => ({ default: m.Gallery })));
 const Venue = lazy(() => import("@/components/wedding/Venue").then((m) => ({ default: m.Venue })));
 const Rsvp = lazy(() => import("@/components/wedding/Rsvp").then((m) => ({ default: m.Rsvp })));
 const MusicPlayer = lazy(() =>
@@ -56,7 +55,6 @@ function Index() {
       <Suspense fallback={null}>
         <Story />
         <Events />
-        <Gallery />
         <Venue />
         <Rsvp />
         <Footer />

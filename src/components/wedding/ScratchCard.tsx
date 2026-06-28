@@ -21,69 +21,110 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const resizeCanvas = () => {
-      if (isRevealedRef.current) return;
-      const rect = canvas.parentElement?.getBoundingClientRect();
-      const width = rect?.width || 200;
-      const height = rect?.height || 200;
-      canvas.width = width;
-      canvas.height = height;
-
-      drawFoil(ctx, width, height);
-    };
+    const parent = canvas.parentElement;
+    if (!parent) return;
 
     const drawFoil = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-      const scale = width / 240; // proportional scaling factor
+      const scale = width / 180; // proportional scaling factor for portrait
 
-      // 1. Create a beautiful deep gold gradient
+      // 1. Create a rich royal maroon/crimson gradient
       const grad = ctx.createLinearGradient(0, 0, width, height);
-      grad.addColorStop(0, "#c59f3d");   // Deep Bronze Gold
-      grad.addColorStop(0.2, "#dfba5f"); // Classic Gold
-      grad.addColorStop(0.5, "#f6e09a"); // Warm golden shimmer (no white spots)
-      grad.addColorStop(0.8, "#dfba5f"); // Classic Gold
-      grad.addColorStop(1, "#c59f3d");   // Deep Bronze Gold
+      grad.addColorStop(0, "#4a0a14");   // Deep Velvet Maroon
+      grad.addColorStop(0.5, "#7e1e2d"); // Classic Royal Crimson
+      grad.addColorStop(1, "#36050c");   // Dark Maroon Shadow
 
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
-      // 2. Draw an ornate border inside the card
-      ctx.strokeStyle = "rgba(107, 84, 36, 0.55)";
-      ctx.lineWidth = Math.max(1.5, 2 * scale);
-      
-      const padding = 10 * scale;
+      // 2. Draw gold double borders
+      ctx.strokeStyle = "rgba(229, 193, 88, 0.75)";
+      ctx.lineWidth = Math.max(1, 1.5 * scale);
+      const padding = 8 * scale;
       ctx.strokeRect(padding, padding, width - padding * 2, height - padding * 2);
-      ctx.strokeRect(padding + 4 * scale, padding + 4 * scale, width - (padding + 4 * scale) * 2, height - (padding + 4 * scale) * 2);
 
-      // 3. Draw diagonal shiny lines
-      ctx.strokeStyle = "rgba(255, 243, 176, 0.2)";
-      ctx.lineWidth = Math.max(2, 4 * scale);
-      for (let i = -height; i < width; i += 25 * scale) {
+      ctx.strokeStyle = "rgba(229, 193, 88, 0.4)";
+      ctx.lineWidth = Math.max(0.5, 0.8 * scale);
+      const innerPadding = padding + 4 * scale;
+      ctx.strokeRect(innerPadding, innerPadding, width - innerPadding * 2, height - innerPadding * 2);
+
+      // 3. Draw a beautiful golden mandala in the center
+      const cx = width / 2;
+      const cy = height / 2 - 15 * scale;
+      const r = 24 * scale;
+
+      ctx.strokeStyle = "rgba(229, 193, 88, 0.55)";
+      ctx.lineWidth = Math.max(0.75, 1.2 * scale);
+      
+      // Outer circle
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Inner circle
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 0.5, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Mandali rays/petals
+      const rays = 12;
+      for (let a = 0; a < Math.PI * 2; a += (Math.PI * 2) / rays) {
         ctx.beginPath();
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i + height, height);
+        ctx.moveTo(cx + Math.cos(a) * (r * 0.25), cy + Math.sin(a) * (r * 0.25));
+        ctx.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
         ctx.stroke();
       }
 
-      // 4. Draw Center Elegant Emblem/Text (Proportionally scaled)
-      ctx.fillStyle = "#5c4008"; // Deep gold brown for contrast
+      // Outer dots
+      ctx.fillStyle = "rgba(229, 193, 88, 0.6)";
+      for (let a = 0; a < Math.PI * 2; a += (Math.PI * 2) / 8) {
+        ctx.beginPath();
+        ctx.arc(cx + Math.cos(a) * (r * 1.25), cy + Math.sin(a) * (r * 1.25), 1.5 * scale, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 4. Draw Center Elegant Gold Text
+      ctx.fillStyle = "#e5c158"; // Bright Gold
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       
-      ctx.font = `${Math.max(14, Math.round(24 * scale))}px serif`;
-      ctx.fillText("✨", width / 2, height / 2 - 20 * scale);
+      ctx.font = `${Math.max(10, Math.round(11 * scale))}px 'Cinzel', serif, Georgia`;
+      ctx.fillText("SCRATCH ME", width / 2, height / 2 + 25 * scale);
 
-      ctx.font = `${Math.max(9, Math.round(13 * scale))}px 'Cinzel', serif, Georgia`;
-      ctx.fillText("SCRATCH ME", width / 2, height / 2 + 5 * scale);
-
-      ctx.font = `${Math.max(6, Math.round(8 * scale))}px 'Poppins', sans-serif`;
-      ctx.fillStyle = "rgba(92, 64, 8, 0.85)";
-      ctx.fillText("REVEAL DATE", width / 2, height / 2 + 22 * scale);
+      ctx.font = `${Math.max(7, Math.round(8 * scale))}px 'Poppins', sans-serif`;
+      ctx.fillStyle = "rgba(229, 193, 88, 0.85)";
+      ctx.fillText("REVEAL DATE", width / 2, height / 2 + 40 * scale);
     };
 
-    resizeCanvas();
+    const resizeObserver = new ResizeObserver(() => {
+      if (isRevealedRef.current) return;
+      const rect = parent.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      if (width > 0 && height > 0) {
+        canvas.width = width;
+        canvas.height = height;
+        drawFoil(ctx, width, height);
+      }
+    });
 
-    window.addEventListener("resize", resizeCanvas);
-    return () => window.removeEventListener("resize", resizeCanvas);
+    // Run once initially to size immediately
+    const rect = parent.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      drawFoil(ctx, rect.width, rect.height);
+    } else {
+      // fallback default sizes if bounding rect is 0 initially
+      canvas.width = 180;
+      canvas.height = 240;
+      drawFoil(ctx, 180, 240);
+    }
+
+    resizeObserver.observe(parent);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
   }, []);
 
   const checkScratchPercentage = () => {
@@ -99,7 +140,6 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
     const data = imgData.data;
     let transparentPixels = 0;
 
-    // Sample every 4th pixel's alpha value to optimize performance
     for (let i = 3; i < data.length; i += 16) {
       if (data[i] === 0) {
         transparentPixels++;
@@ -109,7 +149,6 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
     const totalSampledPixels = data.length / 16;
     const percentage = transparentPixels / totalSampledPixels;
 
-    // Reveal at 35% scratched for a smooth and responsive experience
     if (percentage > 0.35) {
       revealCard();
     }
@@ -125,8 +164,8 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
       const x = (rect.left + rect.width / 2) / window.innerWidth;
       const y = (rect.top + rect.height / 2) / window.innerHeight;
       confetti({
-        particleCount: 60,
-        spread: 70,
+        particleCount: 65,
+        spread: 75,
         origin: { x, y },
         colors: ["#b8860b", "#f4d35e", "#fff3b0", "#f43f5e"],
       });
@@ -158,9 +197,7 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
     if (!canvas || !ctx) return;
 
     const { x, y } = getCoordinates(e);
-    
-    // Scale the brush size dynamically with card width to prevent instant-reveal on mobile
-    const brushRadius = Math.max(10, Math.round(canvas.width * 0.12));
+    const brushRadius = Math.max(12, Math.round(canvas.width * 0.14));
 
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
@@ -181,16 +218,23 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
   };
 
   return (
-    <div className="glass-card relative aspect-square w-full overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 text-center select-none shadow-[var(--shadow-royal)] bg-black/25">
+    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl p-4 text-center select-none border border-[#c4a46a]/30 bg-gradient-to-br from-[#faf8f4] to-[#f5f0e3] shadow-md hover:shadow-lg transition-all duration-300">
+      {/* Corner ornaments for wedding invite look */}
+      <div className="absolute top-2 left-2 w-3.5 h-3.5 border-t border-l border-[#c4a46a]/50" />
+      <div className="absolute top-2 right-2 w-3.5 h-3.5 border-t border-r border-[#c4a46a]/50" />
+      <div className="absolute bottom-2 left-2 w-3.5 h-3.5 border-b border-l border-[#c4a46a]/50" />
+      <div className="absolute bottom-2 right-2 w-3.5 h-3.5 border-b border-r border-[#c4a46a]/50" />
+
       {/* Background/Revealed Content */}
-      <div className="flex h-full flex-col items-center justify-center">
-        <div className="text-gold-static font-display text-lg sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight break-words uppercase">
+      <div className="flex h-full flex-col items-center justify-center py-2">
+        <div className="text-[#c4a46a] text-sm font-serif mb-1 opacity-80">✦ 🌸 ✦</div>
+        <div className="text-[#7e1e2d] font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-none my-2 break-words uppercase">
           {content}
         </div>
-        <div className="mt-1 sm:mt-3 font-sans text-[10px] sm:text-xs tracking-[0.2em] text-amber-300 font-bold">
-          {label.toUpperCase()}
+        <div className="mx-auto w-8 h-[1px] bg-gradient-to-r from-transparent via-[#c4a46a]/40 to-transparent my-1" />
+        <div className="mt-1 font-display text-[9px] sm:text-xs tracking-[0.2em] text-[#c4a46a] font-bold uppercase">
+          {label}
         </div>
-        <div className="pointer-events-none absolute inset-x-3 sm:inset-x-6 bottom-2 sm:bottom-4 h-px bg-gradient-to-r from-transparent via-[oklch(0.78_0.15_82)] to-transparent" />
       </div>
 
       {/* Foreground/Scratchable Canvas */}
@@ -207,16 +251,17 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
             onTouchStart={handleStart}
             onTouchMove={draw}
             onTouchEnd={handleEnd}
-            className="absolute inset-0 z-10 touch-none cursor-crosshair"
+            className="absolute inset-0 z-10 touch-none cursor-crosshair w-full h-full"
           />
         )}
       </AnimatePresence>
+
 
       {/* Manual reveal backup for accessibility */}
       {!isRevealed && (
         <button
           onClick={revealCard}
-          className="absolute bottom-2 left-1/2 z-20 -translate-x-1/2 rounded bg-black/45 px-2 py-0.5 text-[8px] tracking-wider text-[oklch(0.88_0.09_86)] hover:bg-black/60 transition-colors"
+          className="absolute bottom-3 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/40 hover:bg-black/60 px-3 py-1.5 text-[8px] font-display tracking-widest text-[#e5c158] transition-colors border border-[#e5c158]/35 cursor-pointer"
         >
           TAP
         </button>

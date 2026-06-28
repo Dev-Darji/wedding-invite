@@ -35,27 +35,27 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
     const drawFoil = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
       const scale = width / 240; // proportional scaling factor
 
-      // 1. Create a beautiful gold gradient
+      // 1. Create a beautiful deep gold gradient
       const grad = ctx.createLinearGradient(0, 0, width, height);
-      grad.addColorStop(0, "#b8860b");   // Dark Goldenrod
-      grad.addColorStop(0.3, "#f4d35e"); // Bright Gold
-      grad.addColorStop(0.5, "#fff3b0"); // Light champagne gold
-      grad.addColorStop(0.7, "#f4d35e"); // Bright Gold
-      grad.addColorStop(1, "#b8860b");   // Dark Goldenrod
+      grad.addColorStop(0, "#c59f3d");   // Deep Bronze Gold
+      grad.addColorStop(0.2, "#dfba5f"); // Classic Gold
+      grad.addColorStop(0.5, "#f6e09a"); // Warm golden shimmer (no white spots)
+      grad.addColorStop(0.8, "#dfba5f"); // Classic Gold
+      grad.addColorStop(1, "#c59f3d");   // Deep Bronze Gold
 
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
       // 2. Draw an ornate border inside the card
-      ctx.strokeStyle = "rgba(107, 84, 36, 0.4)";
-      ctx.lineWidth = Math.max(1, 1.5 * scale);
+      ctx.strokeStyle = "rgba(107, 84, 36, 0.55)";
+      ctx.lineWidth = Math.max(1.5, 2 * scale);
       
       const padding = 10 * scale;
       ctx.strokeRect(padding, padding, width - padding * 2, height - padding * 2);
       ctx.strokeRect(padding + 4 * scale, padding + 4 * scale, width - (padding + 4 * scale) * 2, height - (padding + 4 * scale) * 2);
 
       // 3. Draw diagonal shiny lines
-      ctx.strokeStyle = "rgba(255, 243, 176, 0.15)";
+      ctx.strokeStyle = "rgba(255, 243, 176, 0.2)";
       ctx.lineWidth = Math.max(2, 4 * scale);
       for (let i = -height; i < width; i += 25 * scale) {
         ctx.beginPath();
@@ -76,7 +76,7 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
       ctx.fillText("SCRATCH ME", width / 2, height / 2 + 5 * scale);
 
       ctx.font = `${Math.max(6, Math.round(8 * scale))}px 'Poppins', sans-serif`;
-      ctx.fillStyle = "rgba(92, 64, 8, 0.7)";
+      ctx.fillStyle = "rgba(92, 64, 8, 0.85)";
       ctx.fillText("REVEAL DATE", width / 2, height / 2 + 22 * scale);
     };
 
@@ -109,7 +109,8 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
     const totalSampledPixels = data.length / 16;
     const percentage = transparentPixels / totalSampledPixels;
 
-    if (percentage > 0.55) {
+    // Reveal at 35% scratched for a smooth and responsive experience
+    if (percentage > 0.35) {
       revealCard();
     }
   };
@@ -157,10 +158,13 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
     if (!canvas || !ctx) return;
 
     const { x, y } = getCoordinates(e);
+    
+    // Scale the brush size dynamically with card width to prevent instant-reveal on mobile
+    const brushRadius = Math.max(10, Math.round(canvas.width * 0.12));
 
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
-    ctx.arc(x, y, 24, 0, Math.PI * 2);
+    ctx.arc(x, y, brushRadius, 0, Math.PI * 2);
     ctx.fill();
 
     checkScratchPercentage();
@@ -177,7 +181,7 @@ export function ScratchCard({ content, label, onScratchComplete }: ScratchCardPr
   };
 
   return (
-    <div className="glass-card relative aspect-square w-full overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 text-center select-none shadow-[var(--shadow-royal)]">
+    <div className="glass-card relative aspect-square w-full overflow-hidden rounded-xl sm:rounded-2xl p-3 sm:p-6 text-center select-none shadow-[var(--shadow-royal)] bg-black/25">
       {/* Background/Revealed Content */}
       <div className="flex h-full flex-col items-center justify-center">
         <div className="text-gold-gradient font-display text-lg sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight break-words uppercase">

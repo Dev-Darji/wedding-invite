@@ -115,7 +115,7 @@ export function Events() {
       <SectionTitle eyebrow="Festivities" title="Wedding Celebrations" />
 
       {/* Mobile: sticky stacking cards */}
-      <div className="mx-auto mt-12 max-w-md px-5 sm:hidden space-y-8">
+      <div className="mx-auto mt-12 max-w-md px-5 sm:hidden">
         {EVENTS_DATA.map((e, i) => (
           <div
             key={e.name}
@@ -131,7 +131,7 @@ export function Events() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6 }}
-              className="relative overflow-hidden rounded-3xl border border-[oklch(0.78_0.15_82)]/60 bg-gradient-to-br from-[oklch(0.97_0.02_85)] via-[oklch(0.94_0.04_84)] to-[oklch(0.88_0.09_86)] p-6 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.25)]"
+              className="relative overflow-hidden rounded-3xl border border-[oklch(0.78_0.15_82)]/60 bg-gradient-to-br from-[oklch(0.97_0.02_85)] via-[oklch(0.94_0.04_84)] to-[oklch(0.88_0.09_86)] p-6 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.25)] min-h-[395px] flex flex-col justify-between"
             >
               <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[oklch(0.78_0.15_82)]/30 blur-3xl" />
               <div className="relative">

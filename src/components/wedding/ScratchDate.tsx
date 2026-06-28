@@ -9,7 +9,7 @@ export function ScratchDate() {
   
   // Format the date elements
   const dateStr = String(weddingDate.getDate()).padStart(2, "0");
-  const monthStr = weddingDate.toLocaleString("default", { month: "long" }).toUpperCase();
+  const monthStr = weddingDate.toLocaleString("default", { month: "short" }).toUpperCase();
   const yearStr = String(weddingDate.getFullYear());
 
   const cards = [
@@ -88,10 +88,10 @@ export function ScratchDate() {
       >
         <button
           onClick={handleShowerBlessings}
-          className="px-8 py-3 rounded-full border border-[oklch(0.88_0.09_86)]/60 bg-[oklch(0.36_0.16_22)]/40 font-display text-sm tracking-[0.2em] text-[oklch(0.97_0.03_85)] backdrop-blur-md transition-all hover:scale-105 hover:border-[oklch(0.88_0.09_86)] hover:bg-[oklch(0.36_0.16_22)]/70 hover:shadow-[0_0_30px_rgba(244,63,94,0.3)] flex items-center gap-2 cursor-pointer"
+          className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#7e1e2d] via-amber-600 to-[#7e1e2d] bg-[length:200%_auto] font-display text-sm tracking-[0.2em] text-white font-bold transition-all duration-300 hover:bg-[position:right_center] hover:scale-105 shadow-[0_10px_30px_-10px_rgba(126,30,45,0.5)] flex items-center gap-2 cursor-pointer"
         >
           <span>SHOWER BLESSINGS</span>
-          <span className="text-rose-500 animate-pulse">❤</span>
+          <span className="text-white animate-pulse">❤</span>
         </button>
       </motion.div>
     </section>

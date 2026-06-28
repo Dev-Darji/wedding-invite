@@ -181,7 +181,7 @@ export function Rsvp() {
           type="submit"
           className="w-full rounded-full bg-[#7e1e2d] px-8 py-4 font-display text-xs tracking-[0.25em] text-white shadow-lg hover:bg-[#631420] transition-all hover:scale-[1.01] cursor-pointer font-bold text-center block"
         >
-          SEND RSVP TO WHATSAPP ✨
+          SEND RSVP TO WHATSAPP
         </button>
         
         <p className="mt-3 text-center text-[10px] tracking-wider text-[#7e1e2d]/60 font-serif">
